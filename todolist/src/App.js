@@ -14,6 +14,7 @@ class App extends Component {
   render() {
     // JSX
     return (
+      // 原始H5的标签
       <div>
         hello，Wilson
       </div>
