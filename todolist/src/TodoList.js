@@ -1,4 +1,7 @@
 import React, { Component, Fragment } from 'react';
+import './style.css'
+
+import TodoItem from './TodoItem';
 
 // React 响应式设计思想
 class TodoList extends Component {
@@ -24,7 +27,11 @@ class TodoList extends Component {
             // Fragment，React 16 版本中，提供使用的占位符，来替代最外层的 div
             <Fragment>
                 <div>
+                    {/* 在Html之中，label的作用是扩大点击的区域 */}
+                    <label htmlFor="insertArea">输入内容</label>
                     <input
+                        id="insertArea"
+                        className='input'
                         // JSX 里面，{} 对 js 表达式，进行包裹
                         value={this.state.inputValue}
                         // bind(this) this 指的是组件，组件的 this 去改变函数的 this 的指向
@@ -41,12 +48,24 @@ class TodoList extends Component {
                             // 在 React 里面，做循环渲染的时候，需要给渲染出的每一项，增加一个 key 值
                             // key 值是唯一标识符，用 index 做 key 值，是一个不好的习惯
                             return (
-                                <li
-                                    key={index}
-                                    onClick={this.handleItemDelete.bind(this, index)}
-                                >
-                                    {item}
-                                </li>
+                                <div>
+                                    <TodoItem
+                                        content={item}
+                                        index={index}
+                                        // 子组件要调用父组件的方法，去改变父组件的数据，直接通过 this.props.XX 就可以调用父组件对应的方法
+                                        // 别忘啦，调用父组件方法的时候，父组件传递过来的函数，this的指向要做一次绑定
+                                        deleteItem={this.handleItemDelete.bind(this)}
+                                    />
+                                    {/* <li
+                                        key={index}
+                                        onClick={this.handleItemDelete.bind(this, index)}
+                                        // 见名知义，危险的设置 li 标签的 InnerHTML 属性(不转义显示)
+                                        // {} 内层，是一个 js 对象；{} 外层，说明里面是 js 表达式
+                                        dangerouslySetInnerHTML={{__html:item}}
+                                    >
+                                        // {item}
+                                    </li> */}
+                                </div>
                             )
                         })
                     }
